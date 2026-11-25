@@ -1,7 +1,7 @@
 # Combine Drills and Rookie Out-Performance (NFL Big Data Bowl 2027)
 
-**Research question:** Do NFL Combine drills predict which rookies out-perform their draft position, and does the
-answer differ by position?
+**Research question:** Can NFL Combine drills predict which rookies out-perform the typical rookie at their position?
+Which other factors help?
 
 **Goal:** sort a player into "likely over-performer" or "likely under-performer" **before the draft**, using only what
 a team knows then: combine results and age. That helps a team plan its later-round picks and find players who can grow into the roster.
@@ -11,17 +11,17 @@ WR, TE, OL, DL and DB (510 players). The pipeline:
 1. Turn each combine drill into a trait score against the player's own position and draft class.
 2. Score each player's success from first-season play data plus career starts per season. This is used only to label
    players.
-3. Label each player as an over- or under-performer against the 2023–24 median at his position.
+3. Label each player as an over- or under-performer against the typical rookie at his position (the 2023–24 median).
 4. Test each combine trait with several hypothesis tests.
 5. Choose a forecast (algorithm and inputs) by cross-validation on the 2023–24 classes, then test it once on the
    unseen 2025 class.
 
-**Headline:** on the unseen 2025 class, combine results plus age at the draft sorted **81% of wide receivers**
-correctly, against 51% for guessing (likely range 68–92%). Of the 17 receivers it flagged as over-performers, 14 were.
-Receivers who jump better than their class are the over-performers, and **younger prospects over-performed at every
-position**. Offensive line (68%), tight end (65%) and defensive line (64%) beat guessing but could still be luck;
-defensive backs (54% vs 51%) did not. See [SUMMARY.md](SUMMARY.md) for the short write-up and
-[PERFORMANCE_CLASSIFIER.md](PERFORMANCE_CLASSIFIER.md) for the full report.
+**Headline:** at wide receiver, yes. On the unseen 2025 class, 14 of the 17 receivers the forecast flagged
+over-performed (**precision 82%**), and ACC (accuracy on 2025) was 81% against 51% for guessing. Receivers who jump better
+than their class over-perform. **Age is the other factor that helps:** over-performers were younger at every position.
+College conference did not help. At the other positions a flag is right 53–73% of the time. See
+[SUMMARY.md](SUMMARY.md) for the short write-up and [PERFORMANCE_CLASSIFIER.md](PERFORMANCE_CLASSIFIER.md) for the full
+report.
 
 ## Repository contents
 
@@ -53,7 +53,7 @@ Both are hosted on claude.ai.
 - **Performance Classifier:** this repository's question. The approach kept, over-performer signals, the 2025 forecast
   with confusion grids, the algorithm comparison, draft pick against
   success score, trait links with career starts, how each round tested, and college conferences.
-  https://claude.ai/artifact/FZMvRW3nZQHZsP9oYSzZnN. A guide with screenshots is in
+  https://claude.ai/artifact/FZMvRW3nZQHZsP9oYSzZnN. The report with screenshots is
   [PERFORMANCE_CLASSIFIER.md](PERFORMANCE_CLASSIFIER.md).
 - **BDB 2027 Position Scout:** the wider exploration that led to the question.
   https://claude.ai/artifact/KAkF3erffbWJx1eHDmrhWC
@@ -113,7 +113,7 @@ Random seeds are fixed, so reruns give the same numbers.
 - Receivers and tight ends appear in `player_play.csv` only on route-running plays, so tight-end blocking counts only
   through career starts.
 - Many players skip drills. Missing drills are set to the class average and counted as a feature.
-- One test year. The input rule ("must not lower 2025 accuracy") looks at the 2025 class, so those numbers are slightly
+- One test year. The input rule ("must not lower ACC") looks at the 2025 class, so those numbers are slightly
   optimistic.
 - Most of the gain over combine results alone comes from age. Defensive backs did better on 2025 without age.
 

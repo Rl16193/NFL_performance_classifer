@@ -1,5 +1,6 @@
 """
-Do NFL Combine drills predict which rookies out-perform their draft position, and does the answer differ by position?
+Can NFL Combine drills predict which rookies out-perform the typical rookie at their position? Which other
+pre-draft factors help?
 
 Data: NFL Big Data Bowl 2027 (Kaggle competition "nfl-big-data-bowl-2027"), 2023-25 draft classes,
 positions WR, TE, OL, DL, DB.
@@ -12,7 +13,7 @@ Pipeline
                        rates), z within position x season.
   4. Success label     success = 0.5 * z(first-season play score) + 0.5 * z(career starts per season), z within
                        position x draft class. Over-performer = success above the 2023-24 classes' median at his
-                       position; the 2025 class is labelled against that same median. Outcome only, never an input.
+                       position (the typical rookie); the 2025 class is labelled against that same median. Outcome only, never an input.
   5. Hypothesis tests  per position x trait: Spearman (+ bootstrap range), Mann-Whitney (+ rank-biserial), permutation
                        test, ANOVA / Kruskal-Wallis across tester thirds, and logistic regression over ~ trait + log(pick)
                        ("does the trait still matter at the same draft spot?"). Holm correction over the 3 main traits.
